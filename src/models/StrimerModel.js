@@ -46,5 +46,6 @@ strimerSchema.methods.checkPassword = async function(passwordInput) {
     return await bcrypt.compare(passwordInput, this.password);
 }
 
-const Strimer = mongoose.model('Strimer', strimerSchema);
+
+const Strimer = mongoose.models.Strimer || mongoose.model('Strimer', strimerSchema);
 export default Strimer;

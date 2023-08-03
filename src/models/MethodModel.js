@@ -8,6 +8,6 @@ const methodSchema = mongoose.Schema({
     }
 });
 
-const Method = mongoose.model('Method', methodSchema);
+const Method = mongoose.models.Method || mongoose.model('Method', methodSchema);
 
 export default Method;
