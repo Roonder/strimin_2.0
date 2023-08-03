@@ -1,6 +1,7 @@
 import {connect} from "@/config/dbConfig";
 import Strimer from "@/models/StrimerModel";
 import jwt from "jsonwebtoken";
+
 // Next Tools
 import { NextResponse } from "next/server";
 
@@ -11,10 +12,13 @@ connect()
 export async function POST(req) {
     try {
         const body = await req.json();
-        const {email, user, password} = body;
+        const {userOrEmail, password} = body;
 
         // Check if strimer already exists
-        const authStrimer = await Strimer.findOne({email});
+        const authStrimer = await Strimer.findOne({$or: [
+            {email: userOrEmail},
+            {user: userOrEmail}
+        ]});
         if(!authStrimer) return NextResponse.json({error: "El usuario no existe"}, {status: 400})
 
         // Check if confirmed
