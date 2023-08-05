@@ -61,6 +61,6 @@ const accountSchema = mongoose.Schema({
     }
 });
 
-const Account = mongoose.model.Account || mongoose.model('Account', accountSchema);
+const Account = mongoose.model?.Account || mongoose.model('Account', accountSchema);
 
 export default Account;

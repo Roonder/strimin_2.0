@@ -1,15 +1,20 @@
 import {connect} from "@/config/dbConfig";
 import Strimer from "@/models/StrimerModel";
 // Next Tools
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse, URLPattern } from "next/server";
 
 // Connect to the database
 connect()
 
-//Login an Strimer
-export async function GET(req) {
+/**
+ * @param {NextRequest} req 
+ * @param {URLPattern} url
+ */
+//Verify an Strimer
+export async function GET(req, url) {
     try {
-        const {token} = req.nextUrl.searchParams;
+        const token = url?.params?.token;
+        console.log(token)
     
         const userToken = await Strimer.findOne({token});
         
@@ -21,11 +26,15 @@ export async function GET(req) {
     }
 }
 
-export async function POST(req) {
+/**
+ * 
+ * @param {URLPattern} url
+ */
+export async function POST(req, url) {
     try {
-        const {token} = req.nextUrl.searchParams;
-        const {password} = req.json();
-    
+        const token = url?.params?.token;
+        const body = await req.json();
+        const {password} = body;
         const user = await Strimer.findOne({token});
     
         if(!user) return NextResponse.json({error: "Hubo un error con su token"}, {status: 404});
