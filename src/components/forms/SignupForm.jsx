@@ -26,20 +26,27 @@ export default function SignupForm() {
         }
     } 
 
+    const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
     return (
     <form onSubmit={handleSubmit(onSubmit)}>
         <Input
             name="email"
             label="Correo Electrónico"
             type="email"
+            alert={errors?.email?.message}
             placeholder="john@doe.com"
-            {...register("email",{required: "Requerido"})}
+            {...register("email",{
+                required: "Requerido",
+                validate: v => emailRegex.test(v) || "Inserta un correo válido"
+            })}
         />
         <Input
             name="user"
             label="Usuario"
             type="text"
             placeholder="johndoe"
+            alert={errors?.user?.message}
             {...register("user",{required: "Requerido"})}
         />
         <Input
@@ -47,18 +54,30 @@ export default function SignupForm() {
             label="Contraseña"
             type="password"
             placeholder="password"
-            {...register("password",{required: "Requerido"})}
+            alert={errors?.password?.message}
+            {...register("password",{
+                required: "Requerido",
+                minLength: {
+                    value: 6,
+                    message: "La contraseña debe de ser de mínimo 6 caracteres"
+                }
+            })}
         />
         <Input
             name="password"
             label="Repite tu Contraseña"
             type="password"
             placeholder="password"
-            {...register("rePassword",{required: "Requerido"})}
+            alert={errors?.rePassword?.message}
+            {...register("rePassword",{
+                required: "Requerido",
+                validate: v => v === getValues("password") || "Las contraseñas no coinciden"
+            })}
         />
 
         <Button
             type="submit"
+            disabled={isSubmitting}
         >Crear Cuenta</Button>
     </form>
 )

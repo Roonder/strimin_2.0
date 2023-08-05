@@ -25,6 +25,9 @@ export default function SignInForm() {
         }
     } 
 
+    const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
+
     return (
     <form onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -32,18 +35,24 @@ export default function SignInForm() {
             label="Usuario o Correo Electrónico"
             type="text"
             placeholder="john@doe.com | johndoe"
-            {...register("userOrEmail",{required: "Requerido"})}
+            alert={errors?.userOrEmail?.message}
+            {...register("userOrEmail",{
+                required: "Requerido",
+                validate: v => emailRegex.test(v) || "Inserta un correo válido"
+            })}
         />
         <Input
             name="password"
             label="Contraseña"
             type="password"
             placeholder="password"
+            alert={errors?.password?.message}
             {...register("password",{required: "Requerido"})}
         />
 
         <Button
             type="submit"
+            disabled={isSubmitting}
         >Ingresar</Button>
     </form>
 )

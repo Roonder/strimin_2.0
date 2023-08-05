@@ -38,22 +38,34 @@ export default function RecoverPasswordForm({token}) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-                name="password"
-                label="Contraseña"
-                type="password"
-                placeholder="password"
-                {...register("password",{required: "Requerido"})}
-            />
-            <Input
-                name="password"
-                label="Repite tu Contraseña"
-                type="password"
-                placeholder="password"
-                {...register("rePassword",{required: "Requerido"})}
-            />
+            name="password"
+            label="Contraseña"
+            type="password"
+            placeholder="password"
+            alert={errors?.password?.message}
+            {...register("password",{
+                required: "Requerido",
+                minLength: {
+                    value: 6,
+                    message: "La contraseña debe de ser de mínimo 6 caracteres"
+                }
+            })}
+        />
+        <Input
+            name="password"
+            label="Repite tu Contraseña"
+            type="password"
+            placeholder="password"
+            alert={errors?.rePassword?.message}
+            {...register("rePassword",{
+                required: "Requerido",
+                validate: v => v === getValues("password") || "Las contraseñas no coinciden"
+            })}
+        />
 
             <Button
                 type="submit"
+                disabled={isSubmitting}
             >Guardar Cambios</Button>
         </form>
     )

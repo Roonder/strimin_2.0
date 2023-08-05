@@ -24,18 +24,25 @@ export default function ForgotPasswordForm() {
         }
     } 
 
+    const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-                name="email"
-                label="Correo Electrónico"
-                type="text"
-                placeholder="john@doe.com"
-                {...register("email",{required: "Requerido"})}
-            />
+            name="email"
+            label="Correo Electrónico"
+            type="email"
+            alert={errors?.email?.message}
+            placeholder="john@doe.com"
+            {...register("email",{
+                required: "Requerido",
+                validate: v => emailRegex.test(v) || "Inserta un correo válido"
+            })}
+        />
 
             <Button
                 type="submit"
+                disabled={isSubmitting}
             >Enviar Instrucciones</Button>
         </form>
     )
