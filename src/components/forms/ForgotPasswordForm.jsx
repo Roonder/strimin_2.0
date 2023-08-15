@@ -1,6 +1,7 @@
 'use client';
 import { Input } from "@/components/utils/Input";
 import { Button } from "@/components/utils/Button";
+import { Alert } from "@/components/Alert"
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
@@ -19,8 +20,7 @@ export default function ForgotPasswordForm() {
         try {
             const {data} = await axios.post('/api/strimers/forgot-password', form);
         } catch (error) {
-            setError(error.message)
-            console.log(error)
+            setError(error.response.data.error);
         }
     } 
 
@@ -28,6 +28,9 @@ export default function ForgotPasswordForm() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+
+            {error && <Alert message={error} type="error" />}
+
             <Input
             name="email"
             label="Correo Electrónico"

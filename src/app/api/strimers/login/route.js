@@ -22,7 +22,7 @@ export async function POST(req) {
         if(!authStrimer) return NextResponse.json({error: "El usuario no existe"}, {status: 400})
 
         // Check if confirmed
-        if(!authStrimer.confirmed) return NextResponse.json({message: "Usuario no confirmado"}, {status: 400});
+        if(!authStrimer.confirmed) return NextResponse.json({error: "Usuario no confirmado"}, {status: 400});
 
         // Check the password
         if(await authStrimer.checkPassword(password)) return NextResponse.json({error: "Contraseña inválida"}, {status: 400});

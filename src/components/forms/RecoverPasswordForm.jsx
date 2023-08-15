@@ -1,6 +1,7 @@
 'use client';
 import { Input } from "@/components/utils/Input";
 import { Button } from "@/components/utils/Button";
+import { Alert } from "@/components/Alert"
 import {useState, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
@@ -18,8 +19,11 @@ export default function RecoverPasswordForm({token}) {
     // Check if the token is a valid token
     useEffect(() => {
         const verifyToken = async () => {
-            const {data} = await axios(`/api/strimers/recover-password/${token}`);
-            console.log(data);
+            try {
+                const {data} = await axios(`/api/strimers/recover-password/${token}`);
+            } catch (error) {
+                setError(error.response.data.error);
+            }
         }
 
         verifyToken();
@@ -30,13 +34,15 @@ export default function RecoverPasswordForm({token}) {
         try {
             const {data} = await axios.post(`/api/strimers/recover-password/${token}`, form);
         } catch (error) {
-            setError(error.message)
-            console.log(error)
+            setError(error.response.data.error)
         }
     } 
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+
+            {error && <Alert message={error} type="error" />}
+
             <Input
             name="password"
             label="Contraseña"
