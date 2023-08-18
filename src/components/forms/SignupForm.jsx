@@ -1,9 +1,10 @@
 'use client';
 import { Input } from "@/components/utils/Input";
 import { Button } from "@/components/utils/Button";
-import { Alert } from "@/components/Alert";
+import { Alert } from "@/components/utils/Alert";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
+import Link from "next/link";
 import axios from "axios";
 
 export default function SignupForm() {
@@ -30,7 +31,7 @@ export default function SignupForm() {
     const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
 
     return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
 
         {error && <Alert message={error} type={"error"} />}
 
@@ -40,6 +41,8 @@ export default function SignupForm() {
             type="email"
             alert={errors?.email?.message}
             placeholder="john@doe.com"
+            labelTextColor="text-white"
+            inputClassName="text-white placeholder:text-white/50"
             {...register("email",{
                 required: "Requerido",
                 validate: v => emailRegex.test(v) || "Inserta un correo válido"
@@ -50,6 +53,8 @@ export default function SignupForm() {
             label="Usuario"
             type="text"
             placeholder="johndoe"
+            labelTextColor="text-white"
+            inputClassName="text-white placeholder:text-white/50"
             alert={errors?.user?.message}
             {...register("user",{required: "Requerido"})}
         />
@@ -58,6 +63,8 @@ export default function SignupForm() {
             label="Contraseña"
             type="password"
             placeholder="password"
+            labelTextColor="text-white"
+            inputClassName="text-white placeholder:text-white/50"
             alert={errors?.password?.message}
             {...register("password",{
                 required: "Requerido",
@@ -72,6 +79,8 @@ export default function SignupForm() {
             label="Repite tu Contraseña"
             type="password"
             placeholder="password"
+            labelTextColor="text-white"
+            inputClassName="text-white placeholder:text-white/50"
             alert={errors?.rePassword?.message}
             {...register("rePassword",{
                 required: "Requerido",
@@ -79,10 +88,20 @@ export default function SignupForm() {
             })}
         />
 
-        <Button
-            type="submit"
-            disabled={isSubmitting}
-        >Crear Cuenta</Button>
+
+        <div className="flex flex-col gap-2 w-full">
+            <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-gray-light text-black-light white-hover rounded shadow font-semibold"
+            >Crear Cuenta</Button>
+
+            <p className="text-white font-semibold text-center font-sans">o</p>
+
+            <Link className="px-4 py-3 border border-neutral-200 text-center text-white font-semibold rounded neon-hover hover:border-none" href={"/login"}>
+                ¡Inicia Sesión!
+            </Link>
+        </div>
     </form>
 )
 }

@@ -1,27 +1,39 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/helpers/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        '3d': "url('/3d.jpg')"
       },
       colors: {
         red: {
-          light: "#E5383B",
-          neutral: "#BA181B",
-          dark: "#A4161A",
-          veryDark: "#660708"
+          light: "#fc0050",
+          neutral: "#b00038",
+          dark: "#6d0020",
+          veryDark: "#390011"
         },
         black: {
           light: "#161A1D",
           dark: "#0B090A"
+        },
+        neon: {
+          purple: "#400ee1",
+          pink: "#ff05bc",
+          blue: "#05bcff"
+        },
+        green: {
+          dark: "#4c6800",
+          lime: "#c0ff14",
+          light: "#f1ffcc"
         },
         gray: {
           neutral: "#B1A7A6",

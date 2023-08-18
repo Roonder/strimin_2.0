@@ -1,13 +1,15 @@
 'use client';
 import { Input } from "@/components/utils/Input";
 import { Button } from "@/components/utils/Button";
-import { Alert } from "@/components/Alert"
+import { Alert } from "@/components/utils/Alert"
 import {useState, useEffect} from "react";
 import {useForm} from "react-hook-form";
+import Link from "next/link";
 import axios from "axios";
 
 export default function RecoverPasswordForm({token}) {
     const [error, setError] = useState();
+    const [saved, setSaved] = useState(false);
     // React hook form
     const {register, handleSubmit, formState: {errors, isSubmitting}, getValues} = useForm({
         defaultValues: {
@@ -38,8 +40,8 @@ export default function RecoverPasswordForm({token}) {
         }
     } 
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+    return !saved ? (
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
 
             {error && <Alert message={error} type="error" />}
 
@@ -48,6 +50,8 @@ export default function RecoverPasswordForm({token}) {
             label="Contraseña"
             type="password"
             placeholder="password"
+            labelTextColor="text-white"
+            inputClassName="text-white placeholder:text-white/50"
             alert={errors?.password?.message}
             {...register("password",{
                 required: "Requerido",
@@ -62,6 +66,8 @@ export default function RecoverPasswordForm({token}) {
             label="Repite tu Contraseña"
             type="password"
             placeholder="password"
+            labelTextColor="text-white"
+            inputClassName="text-white placeholder:text-white/50"
             alert={errors?.rePassword?.message}
             {...register("rePassword",{
                 required: "Requerido",
@@ -69,10 +75,16 @@ export default function RecoverPasswordForm({token}) {
             })}
         />
 
-            <Button
-                type="submit"
-                disabled={isSubmitting}
-            >Guardar Cambios</Button>
+        <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-gray-light text-black-light white-hover rounded shadow font-semibold"
+        >Guardar Cambios</Button>
         </form>
+        
+    ) : (
+        <Link className="px-4 py-3 border border-neutral-200 text-center text-white font-semibold rounded neon-hover hover:border-none" href={"/login"}>
+            ¡Inicia Sesión!
+        </Link>
     )
 }

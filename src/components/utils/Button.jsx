@@ -9,7 +9,7 @@ export const Button = forwardRef(({
     return (
       <button
         ref={ref}
-        className={`px-3 py-2 ${className}`}
+        className={`px-4 py-3 ${className}`}
         type={type}
         {...props}
       >{children}</button>  
