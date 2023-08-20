@@ -1,6 +1,7 @@
 import {connect} from "@/config/dbConfig";
+import { getEnvVariable } from "@/helpers/getEnvVariables";
+import { signJWT } from "@/lib/token";
 import Strimer from "@/models/StrimerModel";
-import jwt from "jsonwebtoken";
 
 // Next Tools
 import { NextResponse } from "next/server";
@@ -27,21 +28,36 @@ export async function POST(req) {
         // Check the password
         if(await authStrimer.checkPassword(password)) return NextResponse.json({error: "Contraseña inválida"}, {status: 400});
 
-        // Authenticate
-        const tokenData = {
-            id: authStrimer._id,
-            user,
-            email: authStrimer.email
+        const JWT_EXPIRES_IN = getEnvVariable("TOKEN_EXPIRES_IN");
+
+        // Sign Token and Authenticate
+
+        const token = await signJWT(
+            {sub: authStrimer._id},
+            {exp: `${JWT_EXPIRES_IN}d`}
+        );
+
+        const maxTokenAge = parseInt(JWT_EXPIRES_IN) * 60 * 43200;
+
+        const cookieOptions = {
+            name: "token",
+            value: token,
+            httpOnly: true,
+            path: "/",
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: maxTokenAge
         }
 
-        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {expiresIn: "7d"});
-
-        const response = NextResponse.json({message: "Inicio de Sesión Exitoso"}, {status: 200});
+        const response = NextResponse.json(
+            {message: "Inicio de Sesión Exitoso"}, 
+            {
+                status: 200,
+                headers: {"Content-Type": "application/json"}
+            });
         // Set the auth token in cookies (not localStorage)
-        response.cookies.set("token", token, {httpOnly: true});
+        response.cookies.set(cookieOptions);
 
         return response;
-        
     } catch (error) {
         return NextResponse.json({error: error.message}, {status: 500})
     }

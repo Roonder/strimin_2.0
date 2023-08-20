@@ -43,7 +43,7 @@ strimerSchema.pre('save', async function(next) {
 });
 
 strimerSchema.methods.checkPassword = async function(passwordInput) {
-    return await bcrypt.compare(passwordInput, this.password);
+    return await bcryptjs.compare(passwordInput, this.password);
 }
 
 

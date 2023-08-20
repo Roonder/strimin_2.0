@@ -45,7 +45,7 @@ export default function SignInForm() {
                 inputClassName="text-white placeholder:text-white/50"
                 {...register("userOrEmail",{
                     required: "Requerido",
-                    validate: v => emailRegex.test(v) || "Inserta un correo válido"
+                    // validate: v => emailRegex.test(v) || "Inserta un correo válido"
                 })}
             />
 
