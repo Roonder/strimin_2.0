@@ -31,7 +31,7 @@ export default function SignupForm() {
     const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
 
     return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 md:grid md:grid-cols-2">
 
         {error && <Alert message={error} type={"error"} />}
 
@@ -43,11 +43,12 @@ export default function SignupForm() {
             placeholder="john@doe.com"
             labelTextColor="text-white"
             inputClassName="text-white placeholder:text-white/50"
+            divClassName="md:col-span-2"
             {...register("email",{
                 required: "Requerido",
                 validate: v => emailRegex.test(v) || "Inserta un correo válido"
             })}
-        />
+            />
         <Input
             name="user"
             label="Usuario"
@@ -55,6 +56,7 @@ export default function SignupForm() {
             placeholder="johndoe"
             labelTextColor="text-white"
             inputClassName="text-white placeholder:text-white/50"
+            divClassName="md:col-span-2"
             alert={errors?.user?.message}
             {...register("user",{required: "Requerido"})}
         />
@@ -89,7 +91,7 @@ export default function SignupForm() {
         />
 
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-2 w-full md:col-span-2">
             <Button
                 type="submit"
                 disabled={isSubmitting}

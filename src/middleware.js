@@ -42,7 +42,10 @@ export async function middleware(req) {
 
     if(isPublicPath.some(testPath) && (!token || redirectToLogin)) return;
 
-    if(isPrivatePath.some(testPath) && !token) return NextResponse.json({error: "No has iniciado sesion. Por favor provee un token válido."}, {status: 401});
+    // if(isPrivatePath.some(testPath) && !token) return NextResponse.json({error: "No has iniciado sesion. Por favor provee un token válido."}, {status: 401}).redirect('/login');
+    if(isPrivatePath.some(testPath) && !token) return NextResponse.redirect(
+        new URL(`/login?${new URLSearchParams({error: "badauth"})}`, req.url)
+    );
 
     const response = NextResponse.next();
 
