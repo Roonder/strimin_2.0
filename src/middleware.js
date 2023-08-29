@@ -24,6 +24,8 @@ export async function middleware(req) {
     // Private Path's Directory
     const isPrivatePath = [
         "/dashboard",
+        "/contacts",
+        "/api/contacts",
         "/api/strimers/profile",
         "/api/strimers/logout"
     ]
