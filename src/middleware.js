@@ -26,6 +26,7 @@ export async function middleware(req) {
         "/dashboard",
         "/contacts",
         "/api/contacts",
+        "/api/contacts/:id*",
         "/api/strimers/profile",
         "/api/strimers/logout"
     ]

@@ -14,14 +14,12 @@ export default function ContactsForm({contact, closeModal}) {
     const [error, setError] = useState();
     const {mutate} = useContacts();
     // React hook form
-    const {register, handleSubmit, formState: {errors, isSubmitting}, getValues} = useForm({
+    const {register, handleSubmit, formState: {errors, isSubmitting}, setValue, watch} = useForm({
         defaultValues: {
             name: contact ? contact.name : "",
             phone: contact ? contact.phone : "+58"
         }
     });
-
-    console.log(contact)
 
     // Handle Submit
     const onSubmit = async (form) => {
