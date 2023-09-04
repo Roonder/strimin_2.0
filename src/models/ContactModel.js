@@ -14,6 +14,11 @@ const contactSchema = mongoose.Schema({
         type: String,
         min: [13, "Inserta un número válido (inicia con \"+58\")"],
         required: true
+    },
+    createdAt: {
+        type: Date,
+        required: true,
+        default: Date.now()
     }
 });
 

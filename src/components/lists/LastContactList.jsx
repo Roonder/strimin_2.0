@@ -8,7 +8,7 @@ import { HiOutlineChevronDown, HiTrash } from "react-icons/hi2"
 import ContactModal from "@/components/modals/ContactModal";
 import { Button } from "@/components/utils/Button";
 
-export function ContactList() {
+export function LastContactList() {
     const {contacts, isLoading, isError, mutate} = useContacts();
     const [error, setError] = useState({});
 
@@ -48,7 +48,7 @@ export function ContactList() {
         });
       }
 
-    return contacts?.contacts?.map(contact => (
+    return contacts?.lastContacts?.map(contact => (
         <div key={contact._id} className="w-full rounded">
             <Disclosure>
                 {({open}) => (

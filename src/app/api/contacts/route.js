@@ -12,8 +12,16 @@ export async function GET(req) {
     const id = req.headers.get("X-USER-ID");
 
     try {
-        const clients = await Contact.find().where("strimer").equals(id);
-        return NextResponse.json(clients, {status: 200});
+        const [contacts, last_twenty_contacts] = await Promise.all([
+            Contact.find().where("strimer").equals(id),
+            Contact.aggregate([
+                { $sort: {createdAt: -1} },
+                { $limit: 20}
+            ])
+        ]);
+        
+
+        return NextResponse.json({contacts, lastContacts: last_twenty_contacts}, {status: 200});
     } catch (error) {
         console.log(error);
     }

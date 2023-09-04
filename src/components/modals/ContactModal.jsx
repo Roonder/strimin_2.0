@@ -16,7 +16,7 @@ export default function ContactModal({edit = false, contact}) {
 
     return (
     <>
-      <Button className="w-full flex gap-2 items-center justify-center text-xl" onClick={open}>{edit ? (
+      <Button className="w-full md:w-fit flex gap-2 items-center justify-center text-xl" onClick={open}>{edit ? (
         <>
           <HiMiniPencilSquare /> <span className="text-base">Editar</span>
             </> ) : (
